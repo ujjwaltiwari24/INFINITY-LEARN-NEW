@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <header class="header">
+
+        <section class="flex">
+
+            <a href="home.html" class="logo">Infinity Learn</a>
+
+            <form action="search.html" method="post" class="search-form">
+                <input type="text" name="search_box" required placeholder="search courses..." maxlength="100">
+                <button type="submit" class="fas fa-search"></button>
+            </form>
+
+            <div class="icons">
+                <div id="menu-btn" class="fas fa-bars"></div>
+                <div id="search-btn" class="fas fa-search"></div>
+                <div id="user-btn" class="fas fa-user"></div>
+                <div id="toggle-btn" class="fas fa-sun"></div>
+            </div>
+
+            <div class="profile">
+                <img src="images/pic-1.jpg" class="image" alt="">
+                <h3 class="name" id="profile-name">Guest</h3> <!-- Dynamic name -->
+                <p class="role" id="profile-role">User</p> <!-- Dynamic role -->
+                <a href="profile.html" class="btn">view profile</a>
+                <div class="flex-btn" id="login-register">  <!-- Conditional display -->
+                    <a href="login.html" class="option-btn">login</a>
+                    <a href="register.html" class="option-btn">register</a>
+                </div>
+                <button onclick="logout()" class="option-btn" id="logout-btn" style="display:none">Logout</button> <!-- Logout Button -->
+            </div>
+
+        </section>
+
+    </header>
+
+    <div class="side-bar">
+
+        <div id="close-btn">
+            <i class="fas fa-times"></i>
+        </div>
+
+        <div class="profile">
+            <img src="images/pic-1.jpg" class="image" alt="">
+            <h3 class="name" id="sidebar-name">Guest</h3> <!-- Dynamic name in sidebar -->
+            <p class="role" id="sidebar-role">User</p> <!-- Dynamic role in sidebar -->
+            <a href="profile.html" class="btn">view profile</a>
+        </div>
+
+        <nav class="navbar">
+            <a href="home.html"><i class="fas fa-home"></i><span>Home</span></a>
+            <a href="about.html"><i class="fas fa-question"></i><span>About</span></a>
+            <a href="courses.html"><i class="fas fa-graduation-cap"></i><span>Courses</span></a>
+            <a href="teachers.html"><i class="fas fa-chalkboard-user"></i><span>Teachers</span></a>
+            <a href="contact.html"><i class="fas fa-headset"></i><span>Contact us</span></a>
+        </nav>
+
+    </div>
+
+    <section class="form-container">
+
+        <form id="login-form" action="" method="post" enctype="multipart/form-data">
+            <h3>Login now</h3>
+            <p>Your email <span>*</span></p>
+            <input type="email" id="email" name="email" placeholder="enter your email" required maxlength="50"
+                class="box">
+            <p>Your password <span>*</span></p>
+            <input type="password" id="password" name="pass" placeholder="enter your password" required maxlength="20"
+                class="box">
+            <input type="submit" value="login" name="submit" class="btn" onclick="login(event)">
+        </form>
+
+    </section>
+
+
+
+
+
+
+
+
+
+    <footer class="footer">
+
+        © copyright @ 2025 <span>INFINITY LEARN</span> | All rights reserved
+
+    </footer>
+
+    <!-- custom js file link  -->
+    <script src="js/script.js"></script>
+    <script>
+        // Credential Data (INSECURE, FOR DEMO PURPOSES ONLY!)
+        const validUsers = {
+            'student1@example.com': { password: 'password123', role: 'student', name: 'Student One' },
+            'admin1@example.com': { password: 'securePass', role: 'admin', name: 'Admin One' }
+        };
+
+        // Check for login status in localStorage
+        let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        let loggedInUser = localStorage.getItem('loggedInUser') || null;
+
+        // Function to update UI based on login status
+        function updateUI() {
+            const loginRegisterDiv = document.getElementById('login-register');
+            const logoutBtn = document.getElementById('logout-btn');
+            const profileName = document.getElementById('profile-name');
+            const profileRole = document.getElementById('profile-role');
+            const sidebarName = document.getElementById('sidebar-name');
+            const sidebarRole = document.getElementById('sidebar-role');
+
+            if (isLoggedIn) {
+                loginRegisterDiv.style.display = 'none';
+                logoutBtn.style.display = 'inline-block';
+                profileName.textContent = validUsers[loggedInUser].name;
+                profileRole.textContent = validUsers[loggedInUser].role;
+                sidebarName.textContent = validUsers[loggedInUser].name;
+                sidebarRole.textContent = validUsers[loggedInUser].role;
+
+                // Example to show/hide elements based on user role
+                if (validUsers[loggedInUser].role === 'admin') {
+                    // Example of displaying admin panel
+                    // document.getElementById('admin-panel').style.display = 'block';
+                } else {
+                    // document.getElementById('admin-panel').style.display = 'none';
+                }
+
+            } else {
+                loginRegisterDiv.style.display = 'flex';
+                logoutBtn.style.display = 'none';
+                profileName.textContent = 'Guest';
+                profileRole.textContent = 'User';
+                sidebarName.textContent = 'Guest';
+                sidebarRole.textContent = 'User';
+            }
+        }
+
+        // Login Function
+        function login(event) {
+            event.preventDefault(); // Prevent form from submitting in the traditional way.
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (validUsers[email] && validUsers[email].password === password) {
+                isLoggedIn = true;
+                loggedInUser = email;
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('loggedInUser', email);
+
+                updateUI();
+                alert('Login successful!');
+                // Redirect to home page or another relevant page
+                window.location.href = 'home.html';
+
+            } else {
+                alert('Login failed. Please check your email and password.');
+            }
+        }
+
+        function logout() {
+            isLoggedIn = false;
+            loggedInUser = null;
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('loggedInUser');
+            updateUI();
+            alert('Logged out successfully!');
+            window.location.href = 'login.html';
+        }
+
+        // Call updateUI on page load to reflect login status
+        updateUI();
+
+    </script>
+
+
+</body>
+
+</html>
