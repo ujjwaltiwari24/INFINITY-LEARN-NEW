@@ -248,7 +248,7 @@ section{
    position: fixed;
    top: 0; left: 0;
    width: 30rem;
-   background-color: var(--white);
+   background-color: rgb(177, 250, 255);
    height: 100vh;
    border-right: var(--border);
    z-index: 1200;
@@ -274,7 +274,7 @@ section{
 }
 
 .side-bar #close-btn i:hover{
-   background-color: var(--black);
+   background-color: rgb(0, 157, 255);
 }
 
 .side-bar .profile{
@@ -332,7 +332,7 @@ section{
 }
 
 .home-grid .box-container{
-   display: grid;
+   display: inline;
    grid-template-columns: repeat(auto-fit, 27.5rem);
    gap:1.5rem;
    justify-content: center;
@@ -340,13 +340,13 @@ section{
 }
 
 .home-grid .box-container .box{
-   background-color: var(--white);
-   border-radius: .5rem;
+   background-color: rgb(255, 255, 255);
+   border-radius: 0%;
    padding:2rem;
 }
 
 .home-grid .box-container .box .title{
-   font-size: 2rem;
+   font-size: 20px;
    color: var(--black);
    text-transform: capitalize;
 }
